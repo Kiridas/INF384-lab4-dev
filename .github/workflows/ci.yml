@@ -90,7 +90,6 @@ jobs:
 
   build-push:
     needs: [unit, integration, sast, sca]
-    if: ${{ always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
     runs-on: ubuntu-24.04
     outputs:
       image: ${{ steps.digest.outputs.image }}
