@@ -1,5 +1,22 @@
-const { test } = require('node:test');
+const { test, before, after } = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+
+let dir;
+before(() => {
+  dir = fs.mkdtempSync(path.join(os.tmpdir(), 'wallet-'));
+  process.env.DB_PATH = path.join(dir, 'wallet.db');
+});
+after(() => {
+  try {
+    fs.rmSync(dir, { recursive: true, force: true });
+  } catch {
+    // En Windows la base sigue abierta; no importa, el directorio es único.
+  }
+});
+
 const { handler } = require('../../src/handler');
 
 async function llamar(metodo, ruta, cuerpo) {
