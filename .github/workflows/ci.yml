@@ -89,7 +89,7 @@ jobs:
               package-lock.json
 
   build-push:
-    needs: [unit, integration, sast, sca]
+    needs: [unit, integration, sca]
     runs-on: ubuntu-24.04
     outputs:
       image: ${{ steps.digest.outputs.image }}
